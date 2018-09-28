@@ -10,7 +10,4 @@ import lombok.NoArgsConstructor;
 public class Review {
     String userId;
     String status;
-
-    public Review(String userId, String status) {
-    }
 }
