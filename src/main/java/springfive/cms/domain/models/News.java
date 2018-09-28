@@ -3,16 +3,40 @@ package springfive.cms.domain.models;
 import lombok.Data;
 import java.util.Set;
 import java.util.HashSet;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
 
+@Data
+@Entity
+@Table(name = "news")
 public class News {
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     String id;
     String title;
     String content;
+
+    @ManyToOne
     User author;
-    Set<User> mandatoryReviewers;
-    Set<Review> reviewers;
-    Set<Category> categories;
-    Set<Tag> tags;
+
+    @OneToMany
+    Set<User> mandatoryReviewers = new HashSet<>();
+
+    @ElementCollection
+    Set<Review> reviewers = new HashSet<>();
+
+    @OneToMany
+    Set<Category> categories = new HashSet<>();
+
+    @ElementCollection
+    Set<Tag> tags = new HashSet<>();
 
     public Boolean revised() {
         return this.mandatoryReviewers.stream().allMatch(reviewer -> this.reviewers.stream()
