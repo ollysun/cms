@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Review {
     String userId;
     String status;
+
+    public Review(String userId, String status) {
+    }
 }

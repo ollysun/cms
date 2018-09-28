@@ -1,8 +1,8 @@
 package springfive.cms.domain.models;
 
 import lombok.Data;
-
 import java.util.Set;
+import java.util.HashSet;
 
 public class News {
     String id;
@@ -13,4 +13,16 @@ public class News {
     Set<Review> reviewers;
     Set<Category> categories;
     Set<Tag> tags;
+
+    public Boolean revised() {
+        return this.mandatoryReviewers.stream().allMatch(reviewer -> this.reviewers.stream()
+                .anyMatch(review -> reviewer.id.equals(review.userId) && "approved".equals(review.status)));
+    }
+
+    public Review review(String userId,String status){
+        final Review review = new Review(userId, status);
+        this.reviewers.add(review);
+        return review;
+    }
+
 }
